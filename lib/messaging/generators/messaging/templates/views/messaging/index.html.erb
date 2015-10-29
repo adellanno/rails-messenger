@@ -1,0 +1,25 @@
+<div id="wrapper">
+  <main id="messages" class="messages">
+    <h1 class="message_list">Messages</h1>
+    <table>
+      <%% @messages.each do |message|%>
+        <tr>
+          <td><%%= other_user_in_conversation(message.from_id, message.to_id).email %></td>
+          <td>
+            <%% if message.seen%>
+              <%%= link_to truncate(message.message,length: 35), conversation_path(message.from_id), :id => "message_seen"  %>
+            <%%else%>
+              <%%= link_to truncate(message.message,length: 35), conversation_path(message.from_id), :id => "message_unseen" %>
+            <%%end%>
+          </td>
+          <td><%% if message.created_at > Time.now.beginning_of_day %>
+            <%%="#{time_ago_in_words(message.created_at)} ago"%>
+          <%% else %>
+            <%%= message.created_at.strftime("%b %d, %Y") %>
+          <%% end %></td>
+        </tr>
+      <%% end %>
+    </table>
+    </main>
+
+</div>
